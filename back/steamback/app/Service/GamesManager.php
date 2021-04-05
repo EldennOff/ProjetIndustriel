@@ -35,12 +35,21 @@ class GamesManager
                     ]
                 ]
             ];
+            
+            $pourcentage = ($response['_source']['positive_ratings']*100)/($response['_source']['positive_ratings']+$response['_source']['negative_ratings']);
+
 
             $img = $client->search($paramsimg);
             $game = ['appid' =>$response['_source']['appid'],
                 'name' => $response['_source']['name'],
                 'publisher'=>$response['_source']['publisher'],
-                'header_image'=>$img['hits']['hits'][0]['_source']['header_image']
+                'header_image'=>$img['hits']['hits'][0]['_source']['header_image'],
+                'release_date'=>$response['_source']['release_date'],
+                'developer'=>$response['_source']['developer'],
+                'required_age'=>$response['_source']['required_age'],
+                'categories'=>$response['_source']['categories'],
+                'genres'=>$response['_source']['genres'],
+                'poucentage'=>intval($pourcentage, 10)
             ];
             array_push($games, $game);
         };
