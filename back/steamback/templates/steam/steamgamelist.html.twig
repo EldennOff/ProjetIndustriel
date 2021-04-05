@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Steam Game List{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        Steam Game List
+    </div>
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th scope="col">appid</th>
+            <th scope="col">Name</th>
+            <th scope="col">Release date</th>
+            <th scope="col">Platforms</th>
+            <th scope="col">Genre</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+            <tr>
+                <th scope="row">{{ game._source.appid }}</th>
+                <td>{{ game._source.name }}</td>
+                <td>{{ game._source.release_date }}</td>
+                <td>{{ game._source.platforms }}</td>
+                <td>{{ game._source.genres }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

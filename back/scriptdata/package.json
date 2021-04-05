@@ -1,0 +1,15 @@
+{
+  "name": "scriptdata",
+  "version": "1.0.0",
+  "description": "script to add data on elasticsearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.11.0",
+    "csv-parser": "^3.0.0"
+  }
+}
