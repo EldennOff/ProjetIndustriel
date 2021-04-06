@@ -29,14 +29,14 @@ class GamesPubliTriManager
 
         $totalresultat = intval($response['hits']['total']['value']);
 
-        $totalpage = intval(intval($response['hits']['total']['value']) / 20, 10);
+        $totalpage = ceil(intval($response['hits']['total']['value']) / 20);
 
         array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage]);
 
         if ($pageid == 1){
             $idgame = 1;
         } else {
-            $idgame = 20 * $pageid;
+            $idgame = 20 * ($pageid-1);
         }
 
         for ($i = $idgame; $i < $idgame+20; $i++) {
