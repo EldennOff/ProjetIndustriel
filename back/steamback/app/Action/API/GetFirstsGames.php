@@ -12,7 +12,7 @@ class GetFirstsGames extends AbstractController
 
         $gamesmanager = New GamesManager();
 
-        $games = $gamesmanager->getFirstsGames(intval($_GET['pageid']));
+        $games = $gamesmanager->getFirstsGamesByDate(intval($_GET['pageid']));
 
         return json_encode($games);
     }

@@ -8,6 +8,8 @@ use App\Action\SteamTest;
 
 use App\Action\API\GetFirstsGames;
 use App\Action\API\GetGame;
+use App\Action\API\GetGamesSortByName;
+use \App\Action\API\GetGamesSortByDev;
 
 return [
     new Route('/', Home::class, 'GET'),
@@ -17,5 +19,7 @@ return [
 
     new Route('/api/getfirstgames', GetFirstsGames::class, 'GET'),
     new Route('/api/game', GetGame::class, 'GET'),
+    new Route('/api/all_games_by_name', GetGamesSortByName::class, 'GET'),
+    new Route('/api/all_games_by_dev', GetGamesSortByDev::class, 'GET'),
 ];
 
