@@ -5,89 +5,248 @@ const fs = require('fs');
 let results= [];
 let compteur = 0;
 
-fs.createReadStream('steam_csvs/steam.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteam(result, compteur, 'steam').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
-    });
 
-fs.createReadStream('steam_csvs/steam_description_data.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteam(result, compteur, 'steam_description_data').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
+function toElastic1() {
+    return new Promise(resolve => {
+        fs.createReadStream('steam_csvs/steam.csv')
+            .pipe(csv({}))
+            .on('data', (data) => results.push(data))
+            .on('end', async () => {
+                for (const result of results) {
+                        compteur++;
+                        await createSteam1(result, compteur, 'steam').catch(console.log);
+                    }
+                resolve();
+            });
     });
+}
 
-fs.createReadStream('steam_csvs/steam_media_data.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteam(result, compteur, 'steam_media_data').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
+function toElastic2() {
+    return new Promise(resolve => {
+        fs.createReadStream('steam_csvs/steam_description_data.csv')
+            .pipe(csv({}))
+            .on('data', (data) => results.push(data))
+            .on('end', async () => {
+                for (const result of results) {
+                    compteur++;
+                    await createSteam(result, compteur, 'steam_description_data').catch(console.log);
+                }
+                resolve();
+            });
     });
+}
 
-fs.createReadStream('steam_csvs/steam_requirements_data.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteam(result, compteur, 'steam_requirements_data').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
+function toElastic3() {
+    return new Promise(resolve => {
+        fs.createReadStream('steam_csvs/steam_media_data.csv')
+            .pipe(csv({}))
+            .on('data', (data) => results.push(data))
+            .on('end', async () => {
+                for (const result of results) {
+                    compteur++;
+                    await createSteam(result, compteur, 'steam_media_data').catch(console.log);
+                }
+                resolve();
+            });
     });
+}
 
-fs.createReadStream('steam_csvs/steam_support_info.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteam(result, compteur, 'steam_support_info').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
+function toElastic4() {
+    return new Promise(resolve => {
+        fs.createReadStream('steam_csvs/steam_requirements_data.csv')
+            .pipe(csv({}))
+            .on('data', (data) => results.push(data))
+            .on('end', async () => {
+                for (const result of results) {
+                    compteur++;
+                    await createSteam(result, compteur, 'steam_requirements_data').catch(console.log);
+                }
+                resolve();
+            });
     });
+}
 
-fs.createReadStream('steam_csvs/steamspy_tag_data.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteam(result, compteur, 'steam_tag_data').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
+function toElastic5() {
+    return new Promise(resolve => {
+        fs.createReadStream('steam_csvs/steam_support_info.csv')
+            .pipe(csv({}))
+            .on('data', (data) => results.push(data))
+            .on('end', async () => {
+                for (const result of results) {
+                    compteur++;
+                    await createSteam(result, compteur, 'steam_support_info').catch(console.log);
+                }
+                resolve();
+            });
     });
+}
 
-async function createSteam(result, id, index) {
-    const { response } = await client.create({
+function toElastic6() {
+    return new Promise(resolve => {
+        fs.createReadStream('steam_csvs/steamspy_tag_data.csv')
+            .pipe(csv({}))
+            .on('data', (data) => results.push(data))
+            .on('end', async () => {
+                for (const result of results) {
+                    compteur++;
+                    await createSteam(result, compteur, 'steam_tag_data').catch(console.log);
+                }
+                resolve();
+            });
+    });
+}
+
+// fs.createReadStream('steam_csvs/steam.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end',() => {
+//         results.forEach(result => {
+//             compteur++;
+//             createSteam1(result, compteur, 'steam').catch(console.log);
+//         }
+//         );
+//          compteur=0;
+//          results=[];
+//     });
+//
+// fs.createReadStream('steam_csvs/steam_description_data.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         results.forEach(result => {
+//                 compteur++;
+//                 createSteam(result, compteur, 'steam_description_data').catch(console.log);
+//             }
+//         );
+//         compteur=0;
+//         results=[];
+//     });
+//
+// fs.createReadStream('steam_csvs/steam_media_data.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         results.forEach(result => {
+//                 compteur++;
+//                 createSteam(result, compteur, 'steam_media_data').catch(console.log);
+//             }
+//         );
+//         compteur=0;
+//         results=[];
+//     });
+//
+// fs.createReadStream('steam_csvs/steam_requirements_data.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         results.forEach(result => {
+//                 compteur++;
+//                 createSteam(result, compteur, 'steam_requirements_data').catch(console.log);
+//             }
+//         );
+//         compteur=0;
+//         results=[];
+//     });
+//
+// fs.createReadStream('steam_csvs/steam_support_info.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         results.forEach(result => {
+//                 compteur++;
+//                 createSteam(result, compteur, 'steam_support_info').catch(console.log);
+//             }
+//         );
+//         compteur=0;
+//         results=[];
+//     });
+//
+// fs.createReadStream('steam_csvs/steamspy_tag_data.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         results.forEach(result => {
+//                 compteur++;
+//                 createSteam(result, compteur, 'steam_tag_data').catch(console.log);
+//             }
+//         );
+//         compteur=0;
+//         results=[];
+//     });
+
+function createSteam(result, id, index) {
+    return client.create({
         index: index,
         id: id,
         body: result
     });
-
 }
+
+function createSteam1(result, id, index) {
+    return client.create({
+        index: index,
+        id: id,
+        body: {
+            appid: result.appid,
+            name: result.name,
+            release_date: Date.parse(result.release_date),
+            release_date_string: result.release_date,
+            english: result.english,
+            developer: result.developer,
+            publisher: result.publisher,
+            platforms: result.platforms,
+            required_age: result.required_age,
+            categories: result.categories,
+            genres: result.genres,
+            steamspy_tags: result.steamspy_tags,
+            achievements: result.achievements,
+            positive_ratings: result.positive_ratings,
+            negative_ratings: result.negative_ratings,
+            percentage_ratings: parseInt( (parseInt(result.positive_ratings, 10) *100)/ (parseInt(result.negative_ratings, 10)+parseInt(result.positive_ratings, 10))),
+            average_playtime: result.average_playtime,
+            median_playtime: result.median_playtime,
+            owners: result.owners,
+            price: result.price
+        }
+    });
+}
+
+async function assyncCall() {
+    console.log('Lancement script 1');
+    await toElastic1();
+    console.log('script 1 fini');
+    compteur=0;
+    results=[];
+
+    console.log('Lancement script 2');
+    await toElastic2();
+    console.log('script 2 fini');
+    compteur=0;
+    results=[];
+
+    console.log('Lancement script 3');
+    await toElastic3();
+    console.log('script 3 fini');
+    compteur=0;
+    results=[];
+
+    console.log('Lancement script 4');
+    await toElastic4();
+    console.log('script 4 fini');
+    compteur=0;
+    results=[];
+
+    console.log('Lancement script 5');
+    await toElastic5();
+    console.log('script 5 fini');
+    compteur=0;
+    results=[];
+
+    console.log('Lancement script 6');
+    await toElastic6();
+    console.log('script 6 fini');
+    compteur=0;
+    results=[];
+}
+
+assyncCall();
