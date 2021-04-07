@@ -13,8 +13,12 @@ class SteamTest extends AbstractController
 
         $allgames=[];
         $games=[];
-
         $pageid = 1;
+
+        $name = null;
+        $name = 'Skyrom';
+
+
 
         $client = ClientBuilder::create()->build();
         $params = [
@@ -22,14 +26,57 @@ class SteamTest extends AbstractController
             'scroll' => '1m',
             'body' =>
                 [
-                    'sort' => [
-                        'release_date' => [
-                            'order' => 'desc'
-                        ]
-                    ]
+//                    'query'=>[
+//                      'bool'=>[
+//                          'must'=> [
+//                              'match'=>[
+//                                  'name'=> [
+//                                  ]
+//                              ]
+//                          ],
+//                      ]
+//                    ],
+//                    'sort' => [
+//                        'release_date' => [
+//                            'order' => 'desc'
+//                        ]
+//                    ]
                 ]
         ];
-        $response = $client->search($params);
+
+        $paraverif = $params;
+
+        if ($paraverif['body'] != null) {
+            print_r($paraverif['body']);
+        }
+
+        if ($name != null) {
+
+            $namesearch = ['query' => [
+                'bool' => [
+                    'must' => [
+                        'match' => [
+                            'name' => [
+                                'query' => $name,
+                                'operator' => 'and',
+                                'zero_terms_query' => 'all',
+                                'fuzziness'=>2,
+                                'prefix_length'=>1
+                            ]
+                        ]
+                    ],
+                ]
+            ]
+            ];
+            $paraverif['body'] = $namesearch;
+
+        }
+
+
+
+        $response = $client->search($paraverif);
+
+        print_r($response);
 
         $totalresultat = intval($response['hits']['total']['value']);
 
