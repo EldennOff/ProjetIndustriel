@@ -31,7 +31,6 @@ class GamesPubliTriManager
 
         $totalpage = ceil(intval($response['hits']['total']['value']) / 20);
 
-        array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage]);
 
         if ($pageid == 1){
             $idgame = 1;
@@ -86,7 +85,7 @@ class GamesPubliTriManager
 
             }
         }
-        array_push($allgames, $games);
+        array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games]);
         return $allgames;
     }
 }
