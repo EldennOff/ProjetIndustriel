@@ -72,11 +72,22 @@ class SteamTest extends AbstractController
 
         }
 
+        $paratest=$paraverif;
 
+        $sort = ['sort' => [
+            'release_date' => [
+                'order' => 'desc'
+                ]
+            ]
+        ];
+
+        $paraverif['body'] = array_replace($paratest['body'], $sort);
+
+        print_r(intval('test'));
 
         $response = $client->search($paraverif);
 
-        print_r($response);
+
 
         $totalresultat = intval($response['hits']['total']['value']);
 

@@ -9,10 +9,12 @@ use Elasticsearch\ClientBuilder;
 
 class GameSearchManager
 {
-    public function searchGame($pageid, $name){
+    public function searchGame($pageid, $name, $sortby, $asc_desc){
 
         $allgames=[];
         $games=[];
+        $ascOrdesc = null;
+        $isSortBy = null;
 
         $client = ClientBuilder::create()->build();
         $params = [
@@ -102,8 +104,32 @@ class GameSearchManager
                     ]
                     ];
                     $params['body'] = $namesearch;
-
                 }
+
+                if ($asc_desc != null){
+                    $ascOrdesc = $asc_desc;
+                }
+                    else{
+                        $ascOrdesc = 'desc';
+                    }
+
+                if ($sortby != null){
+                    if ($sortby != 'release_date' && $sortby != 'percentage_ratings'){
+                        $isSortBy = $sortby . ".keyword";
+                    } else {
+                        $isSortBy = $sortby;
+                    }
+                } else {
+                    $isSortBy = 'release_date';
+                }
+                    $sort = ['sort' => [
+                        $isSortBy => [
+                            'order' => $ascOrdesc
+                            ]
+                        ]
+                    ];
+
+                    $params['body'] = array_replace($params['body'], $sort);
 
                 $response = $client->search($params);
 
@@ -130,7 +156,7 @@ class GameSearchManager
                     'required_age' => $response['hits']['hits'][0]['_source']['required_age'],
                     'categories' => $response['hits']['hits'][0]['_source']['categories'],
                     'genres' => $response['hits']['hits'][0]['_source']['genres'],
-                    'poucentage_ratings' => intval($response['hits']['hits'][0]['_source']['percentage_ratings'], 10)
+                    'percentage_ratings' => intval($response['hits']['hits'][0]['_source']['percentage_ratings'], 10)
                 ];
                 array_push($games, $jeux);
 

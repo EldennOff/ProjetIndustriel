@@ -12,7 +12,7 @@ class GameSearch extends AbstractController
 
         $gamesmanager = New GameSearchManager();
 
-        $games = $gamesmanager->searchGame(intval($_POST['pageid']), $_POST['name']);
+        $games = $gamesmanager->searchGame(intval($_POST['pageid']), $_POST['name'], $_POST['sortby'], $_POST['asc_desc']);
 
         return json_encode($games);
     }

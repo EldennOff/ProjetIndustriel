@@ -78,7 +78,7 @@ class GamesManager
                     'required_age' => $response['hits']['hits'][0]['_source']['required_age'],
                     'categories' => $response['hits']['hits'][0]['_source']['categories'],
                     'genres' => $response['hits']['hits'][0]['_source']['genres'],
-                    'poucentage_ratings' => intval($response['hits']['hits'][0]['_source']['percentage_ratings'], 10)
+                    'percentage_ratings' => intval($response['hits']['hits'][0]['_source']['percentage_ratings'], 10)
                 ];
                 array_push($games, $jeux);
 
