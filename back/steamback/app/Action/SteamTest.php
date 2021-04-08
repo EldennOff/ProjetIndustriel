@@ -16,7 +16,7 @@ class SteamTest extends AbstractController
         $pageid = 1;
 
         $name = null;
-//        $name = 'Skyrom';
+        $name = 'grand thef';
         $categ = 'MMO';
 
 
@@ -24,7 +24,7 @@ class SteamTest extends AbstractController
         $client = ClientBuilder::create()->build();
         $params = [
             'index' => 'steam',
-            'scroll' => '1m',
+            'size' => 5,
             'body' =>
                 [
 //                    'query'=>[
@@ -45,96 +45,49 @@ class SteamTest extends AbstractController
                 ]
         ];
 
-//        if ($name != null) {
-//
-//            $namesearch = ['query' => [
-//                'bool' => [
-//                    'must' => [
-//                        'match' => [
-//                            'name' => [
-//                                'query' => $name,
-//                                'operator' => 'and',
-//                                'zero_terms_query' => 'all',
-//                                'fuzziness'=>2,
-//                                'prefix_length'=>1
-//                            ]
-//                        ]
-//                    ],
-//                ]
-//            ]
-//            ];
-//            $params['body'] = $namesearch;
-//
-//        }
+        if ($name != null) {
 
-        if ($categ != null){
-            if ($params['body'] == null){
-                $categsearch = ['query' => [
-                    'bool' => [
-                        'must' => [
-                            [
-                            'match' => [
-                                'categories' => [
-                                    'query' => $categ,
-                                    'operator' => 'and',
-                                    'zero_terms_query' => 'all',
-                                    'fuzziness'=>2,
-                                    'prefix_length'=>1
-                                ]
-                            ]
-                                ],
-                        [
-                            'match' => [
-                            'name' =>[
-                                'query' => 'Everquest',
-                                'operator' => 'and',
-                                'zero_terms_query' => 'all',
-                                'fuzziness'=>2,
-                                'prefix_length'=>1
-                            ],
-                                ]
-                            ]
-                            ]
-                        ]
-                        ]
-                ];
+            $namesearch = ['query' => [
+                'prefix' => [
+                    'name.keyword' => [
+                        'value' => $name,
+                        'case_insensitive' => true
+                    ],
+                ]
+            ]
+            ];
+            $params['body'] = $namesearch;
 
-                $test = [
-                    'match' => [
-                        'genres' =>[
-                            'query' => 'Free',
-                            'operator' => 'and',
-                            'zero_terms_query' => 'all',
-                            'fuzziness'=>2,
-                            'prefix_length'=>1
-                        ],
-                    ]
-                ];
-
-                $params['body'] = $categsearch;
-
-                array_push($params['body']['query']['bool']['must'], $test);
-            }
-            else{
-                $categsearch =[
-                    'categories' => [
-                        'query' => $categ,
-                        'operator' => 'or',
-                        'zero_terms_query' => 'all',
-                        'fuzziness'=>2,
-                        'prefix_length'=>1
-                    ]
-                ];
-
-                $params['body']['query']['bool']['must']['match'] = array_replace($params['body']['query']['bool']['must']['match'], $categsearch);
-            }
         }
+
 
         print_r($params);
 
         $response = $client->search($params);
 
-        print_r($response);
+        print_r($response['hits']['total']['value']);
+
+        if (intval($response['hits']['total']['value']) >5){
+            $totres = 5;
+        }
+        else {
+            $totres = intval($response['hits']['total']['value']);
+        }
+        $gamesname = [];
+
+        if ($totres > 0){
+            for ($i = 0 ; $i < $totres; $i++){
+
+                $params['from'] = $i;
+                $response = $client->search($params);
+
+                array_push($gamesname, $response['hits']['hits'][0]['_source']['name']);
+            }
+
+            $gamesname = ['names' => $gamesname];
+        }
+
+        print_r($gamesname);
 
         $totalresultat = intval($response['hits']['total']['value']);
 

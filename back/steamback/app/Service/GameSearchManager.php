@@ -437,30 +437,30 @@ class GameSearchManager
 
                 //Trie de données
 
-//                if ($asc_desc != null){
-//                    $ascOrdesc = $asc_desc;
-//                }
-//                    else{
-//                        $ascOrdesc = 'desc';
-//                    }
-//
-//                if ($sortby != null){
-//                    if ($sortby != 'release_date' && $sortby != 'percentage_ratings'){
-//                        $isSortBy = $sortby . ".keyword";
-//                    } else {
-//                        $isSortBy = $sortby;
-//                    }
-//                } else {
-//                    $isSortBy = 'release_date';
-//                }
-//                    $sort = ['sort' => [
-//                        $isSortBy => [
-//                            'order' => $ascOrdesc
-//                            ]
-//                        ]
-//                    ];
-//
-//                    $params['body'] = array_replace($params['body'], $sort);
+                if ($asc_desc != null){
+                    $ascOrdesc = $asc_desc;
+                }
+                    else{
+                        $ascOrdesc = 'desc';
+                    }
+
+                if ($sortby != null){
+                    if ($sortby != 'release_date' && $sortby != 'percentage_ratings'){
+                        $isSortBy = $sortby . ".keyword";
+                    } else {
+                        $isSortBy = $sortby;
+                    }
+                } else {
+                    $isSortBy = 'release_date';
+                }
+                    $sort = ['sort' => [
+                        $isSortBy => [
+                            'order' => $ascOrdesc
+                            ]
+                        ]
+                    ];
+
+                    $params['body'] = array_replace($params['body'], $sort);
 
                 $response = $client->search($params);
 
