@@ -1,0 +1,24 @@
+.temp{
+    width: 250px;
+}
+
+.note{
+    text-align: end;
+}
+
+.carousel>img{
+    width: 600px;
+    object-fit: contain;
+
+}
+
+.about{
+    text-align: center;
+    border-bottom: solid;
+    margin-bottom: 2rem;
+    border-color: rgba(0, 0, 0, 0.212);
+}
+
+.center{
+    text-align: center;
+}
