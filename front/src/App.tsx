@@ -67,7 +67,7 @@ function App() {
                         size="middle"
                     />
 
-                    <div style={{textAlign: "left"}}>
+                    <div style={{textAlign: "left"}} >
                         <Collapse defaultActiveKey={['0']} onChange={callback}>
                             <Panel header="Recherche avancée" key="1">
                                 Name : <Input type="text"/><br/><br/>
