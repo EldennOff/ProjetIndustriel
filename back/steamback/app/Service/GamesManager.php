@@ -119,12 +119,21 @@ class GamesManager
             'body' => [
                 'query' => [
                     'match' => [
-                        'steam_appid' => $appid
+                        'steam_appid' => 20
                     ]
                 ]
             ]
         ];
         $gamemedia = $client->search($paramsmedia);
+
+        $screens =[];
+
+        foreach ($gamemedia['hits']['hits'][0]['_source']['screenshots'] as $screen){
+            array_push($screens, $screen["path_thumbnail"]);
+        }
+
+        $media = ['header_image' => $gamemedia['hits']['hits'][0]['_source']['header_image'], 'screenshots'=>$screens];
+
 
         $paramsrequirement=[
             'index' => 'steam_requirements_data',
@@ -190,7 +199,7 @@ class GamesManager
         $game = [
             'steam' => $gameinfo['hits']['hits'][0]['_source'],
             'description' => $gamedescription['hits']['hits'][0]['_source'],
-            'media' => $gamemedia['hits']['hits'][0]['_source'],
+            'media' => $media,
             'requirements' => $gamerequirements['hits']['hits'][0]['_source'],
             'support' => $gamesupportinfo['hits']['hits'][0]['_source'],
             'tags' => $tagsofgame

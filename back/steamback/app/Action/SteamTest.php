@@ -10,7 +10,7 @@ class SteamTest extends AbstractController
 {
     public function __invoke()
     {
-
+        $client = ClientBuilder::create()->build();
         $allgames=[];
         $games=[];
         $pageid = 1;
@@ -19,29 +19,33 @@ class SteamTest extends AbstractController
         $name = 'grand thef';
         $categ = 'MMO';
 
+        $paramsmedia=[
+            'index' => 'steam_media_data',
+            'body' => [
+                'query' => [
+                    'match' => [
+                        'steam_appid' => 20
+                    ]
+                ]
+            ]
+        ];
+        $gamemedia = $client->search($paramsmedia);
 
+        $screens =[];
 
-        $client = ClientBuilder::create()->build();
+        foreach ($gamemedia['hits']['hits'][0]['_source']['screenshots'] as $screen){
+            array_push($screens, $screen["path_thumbnail"]);
+        }
+
+        $media = ['header_image' => $gamemedia['hits']['hits'][0]['_source']['header_image'], 'screenshots'=>$screens];
+
+        print_r($media);
+
         $params = [
             'index' => 'steam',
             'size' => 5,
             'body' =>
                 [
-//                    'query'=>[
-//                      'bool'=>[
-//                          'must'=> [
-//                              'match'=>[
-//                                  'name'=> [
-//                                  ]
-//                              ]
-//                          ],
-//                      ]
-//                    ],
-//                    'sort' => [
-//                        'release_date' => [
-//                            'order' => 'desc'
-//                        ]
-//                    ]
                 ]
         ];
 
@@ -60,12 +64,8 @@ class SteamTest extends AbstractController
 
         }
 
-
-        print_r($params);
-
         $response = $client->search($params);
 
-        print_r($response['hits']['total']['value']);
 
         if (intval($response['hits']['total']['value']) >5){
             $totres = 5;
@@ -86,8 +86,6 @@ class SteamTest extends AbstractController
 
             $gamesname = ['names' => $gamesname];
         }
-
-        print_r($gamesname);
 
         $totalresultat = intval($response['hits']['total']['value']);
 
