@@ -54,25 +54,40 @@ const columns = [
 
 
 interface Game {
-    appid: 'appid'
-    name: 'name'
-    genres: 'genres'
-    publisher: 'publisher'
-    developer: 'developer'
-    release_date: 'release_date'
-    image: 'image'
-    required_age: 'required_age'
+    // appid: 'appid'
+    // name: 'name'
+    // genres: 'genres'
+    // publisher: 'publisher'
+    // developer: 'developer'
+    // release_date: 'release_date'
+    // image: 'image'
+    // required_age: 'required_age'
+    appid: number
+    name: string
+    genres: string
+    publisher: string
+    developer: string
+    release_date: string
+    image: string
+    required_age: number
 }
 
+interface Temp {
+    total_games: string
+    total_pages: string
+    data: Game[]
+}
+
+
 function TextTheme() {
-    const [games, setGames] = useState<Game[]>([]);
+    const [apiCall, setApiCall] = useState<Temp | null>(null);
     const [isLoading, setIsLoading] = useState(true)
 
 
     useEffect(() => {
-        axios.get<Game[]>('http://steamback/api/getfirstgames?pageid=1')
+        axios.get<Temp>('http://steamback/api/getfirstgames?pageid=1')
             .then(({ data }) => {
-                setGames(data)
+                setApiCall(data);
             })
             .catch((error) => console.error())
             .finally(() => setIsLoading(false))
@@ -87,16 +102,21 @@ function TextTheme() {
         setIsModalVisible(false);
     }
 
-    console.log(games)
+    if(apiCall){
+        console.log(apiCall)
+
+    }
+
     return (
         <>
-
-            <Table dataSource={games} columns={columns} />
+                
+            {/* <Table dataSource={apiCall.data} columns={columns} /> */}
             <div>
                 <ul>
-                    {games.data.map((game: Game) => (
-                        <li key={game.appid}>{game.name} - {game.name}</li>
-                    ))}
+                    {!isLoading && apiCall ?
+                        apiCall.data.map((game: Game) => (
+                            <li key={game.appid}>{game.name} - {game.name}</li>))
+                        : <p>Loading</p>}
                 </ul>
             </div>
 
