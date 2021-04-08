@@ -15,11 +15,7 @@ const check = true;
 function App() {
 
 
-    const {Panel} = Collapse;
 
-    function callback(key: any) {
-        console.log(key);
-    }
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -67,32 +63,7 @@ function App() {
                         size="middle"
                     />
 
-                    <div style={{textAlign: "left"}} >
-                        <Collapse defaultActiveKey={['0']} onChange={callback}>
-                            <Panel header="Recherche avancée" key="1">
-                                Name : <Input type="text"/><br/><br/>
-                                Categories : <Input type="text"/><br/><br/>
-                                Publisher : <Input type="text"/> <br/><br/>
-                                Developer : <Input type="text"/><br/><br/>
 
-                                Sort By : <Select defaultValue="name" style={{width: "120px"}} id="sortBy" allowClear>
-
-                                <option value="name">Name</option>
-                                <option value="release_date">Release Date</option>
-                                <option value="developer">Developer</option>
-                                <option value="publisher">Publisher</option>
-                                <option value="required_age">Required Age</option>
-                                <option value="percentage_ratings">Percentage Ratings</option>
-                            </Select>
-                                <div style={{textAlign:"justify"}}>
-                                    <input type="radio" id="ascendant" name="ascendant" value="ascendant" checked/>
-                                    <label htmlFor="ascendant">Ascendant  </label>
-                                    <input type="radio" id="descendant" name="descendant" value="descendant"/>
-                                    <label htmlFor="descendant">Descendant  </label>
-                                </div>
-                            </Panel>
-                        </Collapse>
-                    </div>
 
                 </Space>
                 <br/>
