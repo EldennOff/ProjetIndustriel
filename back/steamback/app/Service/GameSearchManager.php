@@ -9,7 +9,7 @@ use Elasticsearch\ClientBuilder;
 
 class GameSearchManager
 {
-    public function searchGame($pageid, $name, $sortby, $asc_desc){
+    public function searchGame($pageid, $name, $categ, $genre, $dev, $pub, $sortby, $asc_desc){
 
         $games=[];
         $ascOrdesc = null;
@@ -39,26 +39,189 @@ class GameSearchManager
                 ]
         ];
 
-        if ($name != null) {
+        //  Recherche par noms
+            if ($name != null) {
 
-            $namesearch = ['query' => [
-                'bool' => [
-                    'must' => [
-                        'match' => [
-                            'name' => [
-                                'query' => $name,
-                                'operator' => 'and',
-                                'zero_terms_query' => 'all',
-                                'fuzziness'=>2,
-                                'prefix_length'=>1
+                $namesearch = ['query' => [
+                    'bool' => [
+                        'must' => [[
+                            'match' => [
+                                'name' => [
+                                    'query' => $name,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness' => 2,
+                                    'prefix_length' => 1
+                                ]
                             ]
                         ]
-                    ],
+                        ],
+                    ]
                 ]
-            ]
-            ];
-            $params['body'] = $namesearch;
+                ];
+                $params['body'] = $namesearch;
 
+            }
+
+        //  Recherche par catégories
+        if ($categ != null){
+            if ($params['body'] == null){
+                $categsearch = ['query' => [
+                    'bool' => [
+                        'must' => [[
+                            'match' => [
+                                'categories' => [
+                                    'query' => $categ,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                            ]
+                        ],
+                    ]
+                ]
+                ];
+
+                $params['body'] = $categsearch;
+            }
+            else{
+                $categsearch =[
+                    'match' => [
+                        'categories' => [
+                            'query' => $categ,
+                            'operator' => 'and',
+                            'zero_terms_query' => 'all',
+                            'fuzziness'=>2,
+                            'prefix_length'=>1
+                        ]
+                    ]
+                ];
+
+                array_push($params['body']['query']['bool']['must'], $categsearch);
+            }
+        }
+
+        //  Recherche par genres
+
+        if ($genre != null){
+            if ($params['body'] == null){
+                $genresearch = ['query' => [
+                    'bool' => [
+                        'must' => [[
+                            'match' => [
+                                'genres' => [
+                                    'query' => $genre,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                        ]
+                        ],
+                    ]
+                ]
+                ];
+
+                $params['body'] = $genresearch;
+            }
+            else{
+                $genresearch =[
+                    'match' => [
+                        'genres' => [
+                            'query' => $genre,
+                            'operator' => 'and',
+                            'zero_terms_query' => 'all',
+                            'fuzziness'=>2,
+                            'prefix_length'=>1
+                        ]
+                    ]
+                ];
+
+                array_push($params['body']['query']['bool']['must'], $genresearch);
+            }
+        }
+
+//  Recherche par les developeurs
+        if ($dev != null){
+            if ($params['body'] == null){
+                $devsearch = ['query' => [
+                    'bool' => [
+                        'must' => [[
+                            'match' => [
+                                'developer' => [
+                                    'query' => $dev,
+                                    'operator' => 'or',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                        ]
+                        ],
+                    ]
+                ]
+                ];
+
+                $params['body'] = $devsearch;
+            }
+            else{
+                $devsearch =[
+                    'match' => [
+                        'developer' => [
+                            'query' => $dev,
+                            'operator' => 'or',
+                            'zero_terms_query' => 'all',
+                            'fuzziness'=>2,
+                            'prefix_length'=>1
+                        ]
+                    ]
+                ];
+
+                array_push($params['body']['query']['bool']['must'], $devsearch);
+            }
+        }
+
+        //  Recherche par les éditeurs
+        if ($pub != null){
+            if ($params['body'] == null){
+                $pubsearch = ['query' => [
+                    'bool' => [
+                        'must' => [[
+                            'match' => [
+                                'developer' => [
+                                    'query' => $pub,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                        ]
+                        ],
+                    ]
+                ]
+                ];
+
+                $params['body'] = $pubsearch;
+            }
+            else{
+                $pubsearch =[
+                    'match' => [
+                        'developer' => [
+                            'query' => $pub,
+                            'operator' => 'and',
+                            'zero_terms_query' => 'all',
+                            'fuzziness'=>2,
+                            'prefix_length'=>1
+                        ]
+                    ]
+                ];
+
+                array_push($params['body']['query']['bool']['must'], $pubsearch);
+            }
         }
 
         $response = $client->search($params);
@@ -84,11 +247,14 @@ class GameSearchManager
 
                         ]
                 ];
+
+                //  Recherche par noms
+
                 if ($name != null) {
 
                     $namesearch = ['query' => [
                         'bool' => [
-                            'must' => [
+                            'must' => [[
                                 'match' => [
                                     'name' => [
                                         'query' => $name,
@@ -98,6 +264,7 @@ class GameSearchManager
                                         'prefix_length'=>1
                                     ]
                                 ]
+                                ]
                             ],
                         ]
                     ]
@@ -105,30 +272,195 @@ class GameSearchManager
                     $params['body'] = $namesearch;
                 }
 
-                if ($asc_desc != null){
-                    $ascOrdesc = $asc_desc;
-                }
-                    else{
-                        $ascOrdesc = 'desc';
-                    }
+                //  Recherche par catégories
 
-                if ($sortby != null){
-                    if ($sortby != 'release_date' && $sortby != 'percentage_ratings'){
-                        $isSortBy = $sortby . ".keyword";
-                    } else {
-                        $isSortBy = $sortby;
-                    }
-                } else {
-                    $isSortBy = 'release_date';
-                }
-                    $sort = ['sort' => [
-                        $isSortBy => [
-                            'order' => $ascOrdesc
+                if ($categ != null){
+                    if ($params['body'] == null){
+                        $categsearch = ['query' => [
+                            'bool' => [
+                                'must' => [[
+                                    'match' => [
+                                        'categories' => [
+                                            'query' => $categ,
+                                            'operator' => 'and',
+                                            'zero_terms_query' => 'all',
+                                            'fuzziness'=>2,
+                                            'prefix_length'=>1
+                                        ]
+                                    ]
+                                    ]
+                                ],
                             ]
                         ]
-                    ];
+                        ];
 
-                    $params['body'] = array_replace($params['body'], $sort);
+                        $params['body'] = $categsearch;
+                    }
+                    else{
+                        $categsearch =[
+                            'match' => [
+                                'categories' => [
+                                    'query' => $categ,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                    ]
+                                ]
+                            ];
+
+                        array_push($params['body']['query']['bool']['must'], $categsearch);
+                    }
+                }
+
+
+//  Recherche par genres
+                if ($genre != null){
+                    if ($params['body'] == null){
+                        $genresearch = ['query' => [
+                            'bool' => [
+                                'must' => [[
+                                    'match' => [
+                                        'genres' => [
+                                            'query' => $genre,
+                                            'operator' => 'and',
+                                            'zero_terms_query' => 'all',
+                                            'fuzziness'=>2,
+                                            'prefix_length'=>1
+                                        ]
+                                    ]
+                                ]
+                                ],
+                            ]
+                        ]
+                        ];
+
+                        $params['body'] = $genresearch;
+                    }
+                    else{
+                        $genresearch =[
+                            'match' => [
+                                'genres' => [
+                                    'query' => $genre,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                        ];
+
+                        array_push($params['body']['query']['bool']['must'], $genresearch);
+                    }
+                }
+
+
+//  Recherche par les developeurs
+                if ($dev != null){
+                    if ($params['body'] == null){
+                        $devsearch = ['query' => [
+                            'bool' => [
+                                'must' => [[
+                                    'match' => [
+                                        'developer' => [
+                                            'query' => $dev,
+                                            'operator' => 'or',
+                                            'zero_terms_query' => 'all',
+                                            'fuzziness'=>2,
+                                            'prefix_length'=>1
+                                        ]
+                                    ]
+                                ]
+                                ],
+                            ]
+                        ]
+                        ];
+
+                        $params['body'] = $devsearch;
+                    }
+                    else{
+                        $devsearch =[
+                            'match' => [
+                                'developer' => [
+                                    'query' => $dev,
+                                    'operator' => 'or',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                        ];
+
+                        array_push($params['body']['query']['bool']['must'], $devsearch);
+                    }
+                }
+
+                //  Recherche par les éditeurs
+                if ($pub != null){
+                    if ($params['body'] == null){
+                        $pubsearch = ['query' => [
+                            'bool' => [
+                                'must' => [[
+                                    'match' => [
+                                        'developer' => [
+                                            'query' => $pub,
+                                            'operator' => 'and',
+                                            'zero_terms_query' => 'all',
+                                            'fuzziness'=>2,
+                                            'prefix_length'=>1
+                                        ]
+                                    ]
+                                ]
+                                ],
+                            ]
+                        ]
+                        ];
+
+                        $params['body'] = $pubsearch;
+                    }
+                    else{
+                        $pubsearch =[
+                            'match' => [
+                                'developer' => [
+                                    'query' => $pub,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                        ];
+
+                        array_push($params['body']['query']['bool']['must'], $pubsearch);
+                    }
+                }
+
+                //Trie de données
+
+//                if ($asc_desc != null){
+//                    $ascOrdesc = $asc_desc;
+//                }
+//                    else{
+//                        $ascOrdesc = 'desc';
+//                    }
+//
+//                if ($sortby != null){
+//                    if ($sortby != 'release_date' && $sortby != 'percentage_ratings'){
+//                        $isSortBy = $sortby . ".keyword";
+//                    } else {
+//                        $isSortBy = $sortby;
+//                    }
+//                } else {
+//                    $isSortBy = 'release_date';
+//                }
+//                    $sort = ['sort' => [
+//                        $isSortBy => [
+//                            'order' => $ascOrdesc
+//                            ]
+//                        ]
+//                    ];
+//
+//                    $params['body'] = array_replace($params['body'], $sort);
 
                 $response = $client->search($params);
 
@@ -166,4 +498,7 @@ class GameSearchManager
         return $allgames;
 
     }
+
 }
+
+

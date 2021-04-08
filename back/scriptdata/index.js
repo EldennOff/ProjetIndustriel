@@ -96,18 +96,18 @@ function toElastic6() {
     });
 }
 
-// fs.createReadStream('steam_csvs/steam.csv')
-//     .pipe(csv({}))
-//     .on('data', (data) => results.push(data))
-//     .on('end',() => {
-//         results.forEach(result => {
-//             compteur++;
-//             createSteam1(result, compteur, 'steam').catch(console.log);
-//         }
-//         );
-//          compteur=0;
-//          results=[];
-//     });
+fs.createReadStream('steam_csvs/steam.csv')
+    .pipe(csv({}))
+    .on('data', (data) => results.push(data))
+    .on('end',() => {
+        results.forEach(result => {
+            compteur++;
+            createSteam1(result, compteur, 'steam').catch(console.log);
+        }
+        );
+         compteur=0;
+         results=[];
+    });
 //
 // fs.createReadStream('steam_csvs/steam_description_data.csv')
 //     .pipe(csv({}))
@@ -192,13 +192,13 @@ function createSteam1(result, id, index) {
             release_date: Date.parse(result.release_date),
             release_date_string: result.release_date,
             english: result.english,
-            developer: result.developer,
-            publisher: result.publisher,
-            platforms: result.platforms,
+            developer: returnString(result.developer),
+            publisher: returnString(result.publisher),
+            platforms: returnString(result.platforms),
             required_age: result.required_age,
-            categories: result.categories,
-            genres: result.genres,
-            steamspy_tags: result.steamspy_tags,
+            categories: returnString(result.categories),
+            genres: returnString(result.genres),
+            steamspy_tags: returnString(result.steamspy_tags),
             achievements: result.achievements,
             positive_ratings: result.positive_ratings,
             negative_ratings: result.negative_ratings,
@@ -209,6 +209,18 @@ function createSteam1(result, id, index) {
             price: result.price
         }
     });
+}
+
+function returnString(test){
+    tab=test.split(";");
+    chaine=tab[0];
+    if(tab.length>1){
+        for(i=1;i<tab.length;i++){
+            chaine=chaine+' ; '+tab[i];
+        }
+    }
+    return chaine;
+
 }
 
 async function assyncCall() {
@@ -249,4 +261,4 @@ async function assyncCall() {
     results=[];
 }
 
-assyncCall();
+// assyncCall();

@@ -16,7 +16,8 @@ class SteamTest extends AbstractController
         $pageid = 1;
 
         $name = null;
-        $name = 'Skyrom';
+//        $name = 'Skyrom';
+        $categ = 'MMO';
 
 
 
@@ -44,50 +45,96 @@ class SteamTest extends AbstractController
                 ]
         ];
 
-        $paraverif = $params;
+//        if ($name != null) {
+//
+//            $namesearch = ['query' => [
+//                'bool' => [
+//                    'must' => [
+//                        'match' => [
+//                            'name' => [
+//                                'query' => $name,
+//                                'operator' => 'and',
+//                                'zero_terms_query' => 'all',
+//                                'fuzziness'=>2,
+//                                'prefix_length'=>1
+//                            ]
+//                        ]
+//                    ],
+//                ]
+//            ]
+//            ];
+//            $params['body'] = $namesearch;
+//
+//        }
 
-        if ($paraverif['body'] != null) {
-            print_r($paraverif['body']);
-        }
-
-        if ($name != null) {
-
-            $namesearch = ['query' => [
-                'bool' => [
-                    'must' => [
-                        'match' => [
-                            'name' => [
-                                'query' => $name,
+        if ($categ != null){
+            if ($params['body'] == null){
+                $categsearch = ['query' => [
+                    'bool' => [
+                        'must' => [
+                            [
+                            'match' => [
+                                'categories' => [
+                                    'query' => $categ,
+                                    'operator' => 'and',
+                                    'zero_terms_query' => 'all',
+                                    'fuzziness'=>2,
+                                    'prefix_length'=>1
+                                ]
+                            ]
+                                ],
+                        [
+                            'match' => [
+                            'name' =>[
+                                'query' => 'Everquest',
                                 'operator' => 'and',
                                 'zero_terms_query' => 'all',
                                 'fuzziness'=>2,
                                 'prefix_length'=>1
+                            ],
+                                ]
+                            ]
                             ]
                         ]
-                    ],
-                ]
-            ]
-            ];
-            $paraverif['body'] = $namesearch;
+                        ]
+                ];
 
+                $test = [
+                    'match' => [
+                        'genres' =>[
+                            'query' => 'Free',
+                            'operator' => 'and',
+                            'zero_terms_query' => 'all',
+                            'fuzziness'=>2,
+                            'prefix_length'=>1
+                        ],
+                    ]
+                ];
+
+                $params['body'] = $categsearch;
+
+                array_push($params['body']['query']['bool']['must'], $test);
+            }
+            else{
+                $categsearch =[
+                    'categories' => [
+                        'query' => $categ,
+                        'operator' => 'or',
+                        'zero_terms_query' => 'all',
+                        'fuzziness'=>2,
+                        'prefix_length'=>1
+                    ]
+                ];
+
+                $params['body']['query']['bool']['must']['match'] = array_replace($params['body']['query']['bool']['must']['match'], $categsearch);
+            }
         }
 
-        $paratest=$paraverif;
+        print_r($params);
 
-        $sort = ['sort' => [
-            'release_date' => [
-                'order' => 'desc'
-                ]
-            ]
-        ];
+        $response = $client->search($params);
 
-        $paraverif['body'] = array_replace($paratest['body'], $sort);
-
-        print_r(intval('test'));
-
-        $response = $client->search($paraverif);
-
-
+        print_r($response);
 
         $totalresultat = intval($response['hits']['total']['value']);
 
