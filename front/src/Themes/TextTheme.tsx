@@ -102,20 +102,16 @@ function TextTheme() {
         setIsModalVisible(false);
     }
 
-    if(apiCall){
-        console.log(apiCall)
-
-    }
-
     return (
         <>
-                
-            {/* <Table dataSource={apiCall.data} columns={columns} /> */}
+
+
             <div>
                 <ul>
                     {!isLoading && apiCall ?
+                        // <Table dataSource={apiCall.data} columns={columns} />
                         apiCall.data.map((game: Game) => (
-                            <li key={game.appid}>{game.name} - {game.name}</li>))
+                            <li key={game.appid}>{game.name} - {game.name} </li>))
                         : <p>Loading</p>}
                 </ul>
             </div>
