@@ -9,7 +9,6 @@ class GamesManager
 
     public function getFirstsGamesByDate($pageid){
 
-        $allgames=[];
         $games=[];
 
         $client = ClientBuilder::create()->build();
@@ -84,7 +83,7 @@ class GamesManager
 
             }
         }
-        array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games]);
+        $allgames = ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games];
 
         return $allgames;
     }

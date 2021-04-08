@@ -9,7 +9,6 @@ class GamesDevTriManager
 {
     public function getFirstsGamesByDev($pageid){
 
-        $allgames=[];
         $games=[];
 
         $client = ClientBuilder::create()->build();
@@ -85,7 +84,7 @@ class GamesDevTriManager
 
             }
         }
-        array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games]);
+        $allgames = ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games];
         return $allgames;
     }
 }

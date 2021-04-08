@@ -11,7 +11,6 @@ class GamesNameTrieManager
 
     public function getFirstsGamesByName($pageid){
 
-        $allgames=[];
         $games=[];
 
         $client = ClientBuilder::create()->build();
@@ -87,7 +86,7 @@ class GamesNameTrieManager
 
             }
         }
-        array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games]);
+        $allgames = ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games];
         return $allgames;
     }
 

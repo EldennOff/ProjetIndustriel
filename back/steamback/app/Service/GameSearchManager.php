@@ -11,7 +11,6 @@ class GameSearchManager
 {
     public function searchGame($pageid, $name, $sortby, $asc_desc){
 
-        $allgames=[];
         $games=[];
         $ascOrdesc = null;
         $isSortBy = null;
@@ -162,7 +161,7 @@ class GameSearchManager
 
             }
         }
-        array_push($allgames, ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games]);
+        $allgames = ['total_games' => $totalresultat, 'total_pages'=>$totalpage, 'data'=>$games];
 
         return $allgames;
 
