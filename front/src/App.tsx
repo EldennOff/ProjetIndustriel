@@ -1,10 +1,10 @@
 import logo from './logo.svg'
 import './App.css';
-import { Input, Space, Table, Switch, Modal } from "antd";
+import {Input, Space, Table, Switch, Modal, Collapse} from "antd";
 import "antd/dist/antd.css";
 import { UserOutlined, BarsOutlined, AppstoreOutlined } from '@ant-design/icons'
 import TextTheme from './Themes/TextTheme'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ImageTheme from './Themes/ImageTheme'
 import Connexion from './Connexion'
 
@@ -14,6 +14,14 @@ const check = true;
 
 
 function App() {
+
+
+
+  const {Panel} = Collapse;
+
+  function callback(key: any) {
+    console.log(key);
+  }
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -61,6 +69,14 @@ function App() {
               enterButton="Search"
               size="middle"
             />
+            <Collapse defaultActiveKey={['0']} onChange={callback}>
+              <Panel header="Recherche avancée" key="1">
+                Name : <input type="text"/><br/><br/>
+                Categories : <input type="text"/><br/><br/>
+                Publisher : <input type="text"/> <br/><br/>
+                Developer : <input type="text"/><br/><br/>
+              </Panel>
+            </Collapse>
           </Space>
           <br />
           <div className="switchView">
