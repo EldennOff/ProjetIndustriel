@@ -153,10 +153,6 @@ function ImageTheme() {
 
     let total_games = Number(apiCall?.total_games)
 
-    if (apiCall) {
-        console.log(apiCall.data)
-
-    }
 
     function researchData(pageid: number) {
         console.log(input_name)
@@ -202,7 +198,7 @@ function ImageTheme() {
                         Publisher : <Input id="input_publisher" type="text" value={input_publisher}
                             onChange={handlePublisher} /> <br /><br />
                         <div>
-                            Sort By : <Select defaultValue="name" id="select_sortBy" style={{ width: "120px" }}>
+                            Sort By : <Select defaultValue="release_date" id="select_sortBy" style={{ width: "120px" }}>
                                 <option value="name" onChange={handleShortBy}>Name</option>
                                 <option value="release_date" onChange={handleShortBy}>Release Date</option>
                                 <option value="developer" onChange={handleShortBy}>Developer</option>

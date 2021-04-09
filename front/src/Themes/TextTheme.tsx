@@ -160,9 +160,6 @@ function TextTheme() {
 
     const {Panel} = Collapse;
 
-    function callback(key: any) {
-        console.log(key);
-    }
 
 
     useEffect(() => {
@@ -194,10 +191,8 @@ function TextTheme() {
 
     let total_games = Number(apiCall?.total_games)
 
-    console.log(gameCall);
 
     function researchData(pageid: number) {
-        console.log(input_name)
 
         const bodyFormData = new FormData();
 
@@ -226,7 +221,7 @@ function TextTheme() {
     return (
         <>
             <div style={{textAlign: "left"}}>
-                <Collapse defaultActiveKey={['0']} onChange={callback}>
+                <Collapse defaultActiveKey={['0']}>
                     <Panel header="Recherche avancée" key="1">
                         Name : <Input id="input_name" value={input_name} type="text" onChange={handleName}/><br/><br/>
                         Categories : <Input id="input_categories" type="text" value={input_categories} onChange={handleCategories}/><br/><br/>
