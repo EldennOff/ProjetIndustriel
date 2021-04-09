@@ -4,22 +4,26 @@ import {Button, Carousel, Col, Collapse, Input, Modal, Pagination, Radio, Row, S
 import axios from "axios";
 
 interface Game {
-    // appid: 'appid'
-    // name: 'name'
-    // genres: 'genres'
-    // publisher: 'publisher'
-    // developer: 'developer'
-    // release_date: 'release_date'
-    // image: 'image'
-    // required_age: 'required_age'
-    appid: number
-    name: string
-    genres: string
-    publisher: string
-    developer: string
-    release_date: string
-    image: string
-    required_age: number
+    appid: string,
+    name: string,
+    release_date: number,
+    release_date_string: string,
+    english: string,
+    developer: string,
+    publisher: string,
+    platforms: string,
+    required_age: string,
+    categories: string,
+    genres: string,
+    steamspy_tags: string,
+    achievements: string,
+    positive_ratings: string,
+    negative_ratings: string,
+    percentage_ratings: number,
+    average_playtime: string,
+    median_playtime: string,
+    owners: string,
+    price: string,
     header_image: string
 }
 
@@ -35,7 +39,7 @@ interface Info {
     media: Media
     requirements: Requirements
     // support:
-    // tags:
+    tags: String[]
 
 }
 
@@ -62,14 +66,11 @@ interface Media {
 
 interface Requirements {
     minimum: string
-    recommanded: string
+    recommended: string
 
 }
 
 interface Support {
-
-}
-interface Tags {
 
 }
 
@@ -244,6 +245,7 @@ function ImageTheme() {
                         width="1100px"
                         title={gameCall.steam.name}
                         onOk={handleOk}
+                        onCancel={handleOk}
                         footer={[
                             <Button key="back" onClick={handleOk}>
                                 Ok
@@ -252,15 +254,20 @@ function ImageTheme() {
                     >
                         <>
                             <Row>
-                                <Col span={8} offset={8}>
+                                <Col span={4}>
+
+                                </Col>
+                                <Col span={8} offset={4}>
                                     <h1 className="center">{gameCall.steam.name}</h1>
+                                </Col>
+                                <Col span={4} offset={4}>
+                                    <h3>Rate : {gameCall.steam.percentage_ratings} %</h3>
+                                    <p>Required Age : {gameCall.steam.required_age}</p>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col span={12} offset={6}>
-                                    <Carousel
-                                        autoplay
-                                    >
+                                    <Carousel autoplay>
                                         <div className="carousel">
                                             <img
                                                 src={gameCall.media.screenshots[0]} />
@@ -289,28 +296,32 @@ function ImageTheme() {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col span={20}>
-                                    <h2>Features</h2>
-                                    <ul>
-                                        <li>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum placeat laboriosam
-                                            totam perspiciatis asperiores vitae architecto illo optio! Rem, beatae aliquid
-                                            eligendi assumenda dolorem accusantium non inventore praesentium laudantium
-                                            accusamus!
-                                        </li>
-                                        <li>
-                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto id, quidem,
-                                            laboriosam rerum magnam saepe error optio veritatis soluta, voluptatum ipsam ex
-                                            esse.
-                                        </li>
-                                    </ul>
+                                <Col span={16}>
+                                    <Row>
+                                        <Col span={6}>
+                                            <h3>Developer</h3>
+                                            <p>{gameCall.steam.developer}</p>
+                                        </Col>
+                                        <Col span={6}>
+                                            <h3>Publisher</h3>
+                                            <p>{gameCall.steam.publisher}</p>
+                                        </Col>
+                                    </Row>
+
+                                    <h3>Categories</h3>
+                                    <p>{gameCall.steam.categories}</p>
+                                    <h3>Genres</h3>
+                                    <p>{gameCall.steam.genres}</p>
+                                    <h3>Tags</h3>
+                                    <p>{gameCall.tags.toString()}</p>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col span={16}>
-                                    <h2>Requirements :</h2>
+                                    <h2>Requirements</h2>
                                     <ul>
-                                        <li>{gameCall.requirements.minimum}</li>
+                                        <li>Minimum <br />{gameCall.requirements.minimum}</li>
+                                        {gameCall.requirements.recommended && <li>Recommended : <br />{gameCall.requirements.recommended}</li>}
                                     </ul>
                                 </Col>
                             </Row>
