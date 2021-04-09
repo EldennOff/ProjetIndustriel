@@ -46,7 +46,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <div className="headerLogos">
-                    <img src={logo} className="App-logo" alt="logo"/>
+                    <img src={'https://logos-marques.com/wp-content/uploads/2021/03/Steam-Embleme.png'} className="App-logo" alt="logo"/>
                     <a onClick={showModal}>
                         <UserOutlined className="User-logo"/>
                     </a>
