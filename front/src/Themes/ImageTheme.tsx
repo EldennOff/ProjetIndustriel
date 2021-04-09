@@ -204,7 +204,7 @@ function ImageTheme() {
                                 <option value="developer" onChange={handleShortBy}>Developer</option>
                                 <option value="publisher" onChange={handleShortBy}>Publisher</option>
                                 <option value="required_age" onChange={handleShortBy}>Required Age</option>
-                                <option value="percentage_ratings">Percentage Ratings</option>
+                                <option value="percentage_ratings" onChange={handleShortBy}>Percentage Ratings</option>
                             </Select>
                         </div>
                         <div style={{ textAlign: "justify" }}>

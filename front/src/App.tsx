@@ -62,7 +62,7 @@ function App() {
             </div>
             {displayMode === 'text' ? <TextTheme/> : <ImageTheme/>}
             <div className="modalConnexion">
-                <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title="Connexion" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                     <Space direction="vertical">
                         <Input placeholder="Enter your username"/>
                         <Input.Password placeholder="Enter your password"/>

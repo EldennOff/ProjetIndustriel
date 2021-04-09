@@ -229,7 +229,7 @@ function TextTheme() {
                         Developer : <Input id="input_developer" type="text"  value={input_developer} onChange={handleDeveloper}/><br/><br/>
                         Publisher : <Input id="input_publisher" type="text"  value={input_publisher} onChange={handlePublisher}/> <br/><br/>
                         <div>
-                            Sort By : <Select defaultValue="name" id="select_sortBy" style={{width: "120px"}} >
+                            Sort By : <Select defaultValue="release_date" id="select_sortBy" style={{width: "120px"}} >
                             <option value="name" onChange={handleShortBy}>Name</option>
                             <option value="release_date" onChange={handleShortBy}>Release Date</option>
                             <option value="developer" onChange={handleShortBy}>Developer</option>
