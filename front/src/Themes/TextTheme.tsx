@@ -38,7 +38,7 @@ const columns = [
         render: (record: any) => {
             return (
                 <div>
-                    <img style={{ width: '250px' }} src={record} />
+                    <img style={{ width: '250px' }} src={record} alt={'image head'}/>
                 </div>
             );
         },

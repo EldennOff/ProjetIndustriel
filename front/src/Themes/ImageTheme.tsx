@@ -230,7 +230,7 @@ function ImageTheme() {
             <div style={{ textAlign: "center" }}>
 
                 {!isLoading && apiCall ? apiCall.data.map((game: Game) => (
-                    <img key={game.appid} style={{ margin: "4px 4px 4px 4px" }} src={game.header_image} onClick={() => {
+                    <img key={game.appid} style={{ margin: "4px 4px 4px 4px" }} alt={game.name} src={game.header_image} onClick={() => {
                         getGameByAppId(game.appid.toString())
                         showModal()
                     }} />
