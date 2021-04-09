@@ -11,16 +11,13 @@
   margin: 0 .5rem 0 .5rem;
 }
 
-.modalConnexion{
-}
-
 .User-logo{
   background-color: #30333b;
   border-radius: 50%;
   overflow: hidden;
   font-size: 2.2rem;
+  margin-left: 102rem;
 }
-
 
 .headerLogos{
   border-bottom: solid;
