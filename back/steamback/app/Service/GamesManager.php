@@ -119,7 +119,7 @@ class GamesManager
             'body' => [
                 'query' => [
                     'match' => [
-                        'steam_appid' => 20
+                        'steam_appid' => $appid
                     ]
                 ]
             ]
