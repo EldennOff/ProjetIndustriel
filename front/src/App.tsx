@@ -53,7 +53,13 @@ function App() {
                 </div>
             </header>
             <body>
-
+            <div className="SearchBar">
+                <div className="switchView">
+                    <BarsOutlined/>
+                    <Switch onChange={modeChange}/>
+                    <AppstoreOutlined/>
+                </div>
+            </div>
             {displayMode === 'text' ? <TextTheme/> : <ImageTheme/>}
             <div className="modalConnexion">
                 <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
