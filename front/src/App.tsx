@@ -54,25 +54,6 @@ function App() {
             </header>
             <body>
 
-            <div className="SearchBar">
-                <Space direction="vertical">
-                    <Search
-                        placeholder="Search Bar"
-                        allowClear
-                        enterButton="Search"
-                        size="middle"
-                    />
-
-
-
-                </Space>
-                <br/>
-                <div className="switchView">
-                    <BarsOutlined/>
-                    <Switch onChange={modeChange}/>
-                    <AppstoreOutlined/>
-                </div>
-            </div>
             {displayMode === 'text' ? <TextTheme/> : <ImageTheme/>}
             <div className="modalConnexion">
                 <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

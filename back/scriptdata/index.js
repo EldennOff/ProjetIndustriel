@@ -122,18 +122,18 @@ function toElastic6() {
 //         results=[];
 //     });
 //
-fs.createReadStream('steam_csvs/steam_media_data.csv')
-    .pipe(csv({}))
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-        results.forEach(result => {
-                compteur++;
-                createSteamMedia(result, compteur, 'steam_media_data').catch(console.log);
-            }
-        );
-        compteur=0;
-        results=[];
-    });
+// fs.createReadStream('steam_csvs/steam_media_data.csv')
+//     .pipe(csv({}))
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         results.forEach(result => {
+//                 compteur++;
+//                 createSteamMedia(result, compteur, 'steam_media_data').catch(console.log);
+//             }
+//         );
+//         compteur=0;
+//         results=[];
+//     });
 //
 // fs.createReadStream('steam_csvs/steam_requirements_data.csv')
 //     .pipe(csv({}))
@@ -275,4 +275,4 @@ async function assyncCall() {
     results=[];
 }
 
-// assyncCall();
+assyncCall();
